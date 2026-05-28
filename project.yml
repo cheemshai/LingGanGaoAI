@@ -1,0 +1,46 @@
+name: LingGanGaoAI
+
+options:
+  minimumXcodeGenVersion: 2.42.0
+  deploymentTarget:
+    iOS: "17.0"
+
+configs:
+  Debug: debug
+  Release: release
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+
+targets:
+  LingGanGaoAI:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: LingGanGaoAI
+        excludes:
+          - Assets.xcassets
+          - Supporting/Info.plist
+    resources:
+      - path: LingGanGaoAI/Assets.xcassets
+    info:
+      path: LingGanGaoAI/Supporting/Info.plist
+    settings:
+      base:
+        PRODUCT_NAME: LingGanGaoAI
+        PRODUCT_MODULE_NAME: LingGanGaoAI
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourcompany.LingGanGaoAI
+        INFOPLIST_FILE: LingGanGaoAI/Supporting/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+        CODE_SIGN_STYLE: Manual
+        DEVELOPMENT_TEAM: ""
+    scheme:
+      gatherCoverageData: false
