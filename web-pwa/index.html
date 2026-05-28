@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f5ef">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="灵感稿 AI">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>灵感稿 AI</title>
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./assets/icon.svg">
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <img src="./assets/icon.svg" alt="" class="brand-mark">
+          <div>
+            <div class="brand-name">灵感稿 AI</div>
+            <div class="brand-subtitle" data-model-label>deepseek-v4-flash</div>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="home" type="button">
+            <span class="nav-icon">⌂</span>
+            <span>首页</span>
+          </button>
+          <button class="nav-item" data-view="ppt" type="button">
+            <span class="nav-icon">▤</span>
+            <span>PPT 大纲</span>
+          </button>
+          <button class="nav-item" data-view="copy" type="button">
+            <span class="nav-icon">✎</span>
+            <span>文案生成</span>
+          </button>
+          <button class="nav-item" data-view="prompt" type="button">
+            <span class="nav-icon">⌘</span>
+            <span>提示词</span>
+          </button>
+          <button class="nav-item" data-view="history" type="button">
+            <span class="nav-icon">◷</span>
+            <span>历史</span>
+          </button>
+          <button class="nav-item" data-view="settings" type="button">
+            <span class="nav-icon">⚙</span>
+            <span>设置</span>
+          </button>
+        </nav>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" data-view-eyebrow>工作台</p>
+            <h1 data-view-title>灵感稿 AI</h1>
+          </div>
+          <button class="icon-button" data-view="settings" type="button" aria-label="设置">⚙</button>
+        </header>
+
+        <section class="view active" data-panel="home">
+          <div class="dashboard-grid">
+            <button class="feature-card accent-a" data-view="ppt" type="button">
+              <span class="feature-icon">▤</span>
+              <span class="feature-title">PPT 大纲生成</span>
+              <span class="feature-meta">标题、分页、图表、设计建议</span>
+            </button>
+            <button class="feature-card accent-b" data-view="copy" type="button">
+              <span class="feature-icon">✎</span>
+              <span class="feature-title">文案生成</span>
+              <span class="feature-meta">小红书、抖音、朋友圈、脚本</span>
+            </button>
+            <button class="feature-card accent-c" data-view="prompt" type="button">
+              <span class="feature-icon">⌘</span>
+              <span class="feature-title">提示词生成</span>
+              <span class="feature-meta">Codex、Canva、Gemini、通用</span>
+            </button>
+            <button class="feature-card accent-d" data-view="history" type="button">
+              <span class="feature-icon">◷</span>
+              <span class="feature-title">历史记录</span>
+              <span class="feature-meta" data-history-count>0 条记录</span>
+            </button>
+          </div>
+
+          <div class="section-row">
+            <div class="panel compact-panel">
+              <div class="panel-heading">
+                <h2>最近结果</h2>
+                <button class="text-button" data-view="history" type="button">查看全部</button>
+              </div>
+              <div class="recent-list" data-recent-list></div>
+            </div>
+            <div class="panel compact-panel">
+              <div class="panel-heading">
+                <h2>当前配置</h2>
+                <button class="text-button" data-view="settings" type="button">设置</button>
+              </div>
+              <dl class="settings-summary">
+                <div>
+                  <dt>模型</dt>
+                  <dd data-summary-model>deepseek-v4-flash</dd>
+                </div>
+                <div>
+                  <dt>Base URL</dt>
+                  <dd data-summary-base>https://api.deepseek.com</dd>
+                </div>
+                <div>
+                  <dt>API Key</dt>
+                  <dd data-summary-key>未填写</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" data-panel="ppt">
+          <form class="tool-layout" data-form="ppt">
+            <div class="form-panel panel">
+              <div class="field">
+                <label for="ppt-topic">PPT 主题</label>
+                <textarea id="ppt-topic" name="topic" rows="4" placeholder="例如：大学生社会实践项目成果汇报"></textarea>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="ppt-pages">页数</label>
+                  <select id="ppt-pages" name="pages">
+                    <option>8</option>
+                    <option>10</option>
+                    <option>12</option>
+                    <option>15</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="ppt-scene">使用场景</label>
+                  <select id="ppt-scene" name="scene">
+                    <option>课堂汇报</option>
+                    <option>毕设答辩</option>
+                    <option>商业路演</option>
+                    <option>社会实践</option>
+                    <option>行业分析</option>
+                    <option>自定义</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field" data-custom-scene-field hidden>
+                <label for="ppt-custom-scene">自定义场景</label>
+                <input id="ppt-custom-scene" name="customScene" type="text" placeholder="输入具体使用场景">
+              </div>
+              <div class="field">
+                <label for="ppt-style">风格</label>
+                <select id="ppt-style" name="style">
+                  <option>商务</option>
+                  <option>学术</option>
+                  <option>红色主题</option>
+                  <option>科技风</option>
+                  <option>简洁风</option>
+                  <option>高级感</option>
+                </select>
+              </div>
+              <label class="switch-row">
+                <input name="speechNotes" type="checkbox">
+                <span>需要演讲稿</span>
+              </label>
+              <button class="primary-button" type="submit">
+                <span class="button-label">生成 PPT 大纲</span>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+              <div class="error-banner" data-error="ppt" hidden></div>
+            </div>
+            <div class="result-panel panel">
+              <div class="panel-heading">
+                <h2>生成结果</h2>
+                <button class="copy-button" data-copy-result="ppt" type="button">复制</button>
+              </div>
+              <article class="markdown-result" data-result="ppt">结果会显示在这里。</article>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" data-panel="copy">
+          <form class="tool-layout" data-form="copy">
+            <div class="form-panel panel">
+              <div class="field">
+                <label for="copy-topic">主题</label>
+                <textarea id="copy-topic" name="topic" rows="4" placeholder="例如：一款适合学生党的 AI 学习工具"></textarea>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="copy-type">文案类型</label>
+                  <select id="copy-type" name="copyType">
+                    <option>小红书</option>
+                    <option>抖音</option>
+                    <option>朋友圈</option>
+                    <option>商品带货</option>
+                    <option>视频脚本</option>
+                    <option>论文润色</option>
+                    <option>演讲稿</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="copy-length">字数</label>
+                  <select id="copy-length" name="length">
+                    <option>短</option>
+                    <option>中</option>
+                    <option>长</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="copy-style">风格</label>
+                <select id="copy-style" name="style">
+                  <option>正式</option>
+                  <option>活泼</option>
+                  <option>高级</option>
+                  <option>接地气</option>
+                  <option>学术</option>
+                  <option>犀利</option>
+                </select>
+              </div>
+              <button class="primary-button" type="submit">
+                <span class="button-label">生成文案</span>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+              <div class="error-banner" data-error="copy" hidden></div>
+            </div>
+            <div class="result-panel panel">
+              <div class="panel-heading">
+                <h2>生成结果</h2>
+                <button class="copy-button" data-copy-result="copy" type="button">复制</button>
+              </div>
+              <article class="markdown-result" data-result="copy">结果会显示在这里。</article>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" data-panel="prompt">
+          <form class="tool-layout" data-form="prompt">
+            <div class="form-panel panel">
+              <div class="field">
+                <label for="prompt-goal">想生成什么内容</label>
+                <textarea id="prompt-goal" name="goal" rows="4" placeholder="例如：帮我生成一份品牌发布会 PPT"></textarea>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="prompt-platform">使用平台</label>
+                  <select id="prompt-platform" name="platform">
+                    <option>Codex</option>
+                    <option>Canva</option>
+                    <option>豆包</option>
+                    <option>Gemini</option>
+                    <option>ChatGPT</option>
+                    <option>通用</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="prompt-detail">详细程度</label>
+                  <select id="prompt-detail" name="detail">
+                    <option>简短</option>
+                    <option selected>标准</option>
+                    <option>超详细</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="prompt-style">目标风格</label>
+                <input id="prompt-style" name="style" type="text" placeholder="例如：专业、清晰、有执行步骤">
+              </div>
+              <button class="primary-button" type="submit">
+                <span class="button-label">生成提示词</span>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+              <div class="error-banner" data-error="prompt" hidden></div>
+            </div>
+            <div class="result-panel panel">
+              <div class="panel-heading">
+                <h2>生成结果</h2>
+                <button class="copy-button" data-copy-result="prompt" type="button">复制</button>
+              </div>
+              <article class="markdown-result" data-result="prompt">结果会显示在这里。</article>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" data-panel="history">
+          <div class="panel">
+            <div class="history-toolbar">
+              <div class="field search-field">
+                <label for="history-search">搜索</label>
+                <input id="history-search" data-history-search type="search" placeholder="搜索标题、输入或结果">
+              </div>
+              <div class="segmented" data-history-filter>
+                <button class="active" type="button" data-filter="all">全部</button>
+                <button type="button" data-filter="ppt">PPT</button>
+                <button type="button" data-filter="copy">文案</button>
+                <button type="button" data-filter="prompt">提示词</button>
+              </div>
+            </div>
+            <div class="history-list" data-history-list></div>
+          </div>
+          <dialog class="record-dialog" data-record-dialog>
+            <div class="dialog-header">
+              <div>
+                <p class="eyebrow" data-dialog-type>记录</p>
+                <h2 data-dialog-title>详情</h2>
+              </div>
+              <button class="icon-button" data-dialog-close type="button" aria-label="关闭">×</button>
+            </div>
+            <article class="markdown-result dialog-content" data-dialog-content></article>
+            <div class="dialog-actions">
+              <button class="copy-button" data-dialog-copy type="button">复制全文</button>
+              <button class="danger-button" data-dialog-delete type="button">删除</button>
+            </div>
+          </dialog>
+        </section>
+
+        <section class="view" data-panel="settings">
+          <form class="settings-layout" data-form="settings">
+            <div class="panel">
+              <div class="field">
+                <label for="api-key">DeepSeek API Key</label>
+                <input id="api-key" name="apiKey" type="password" autocomplete="off" placeholder="sk-...">
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="model-name">模型</label>
+                  <select id="model-name" name="modelName">
+                    <option>deepseek-v4-flash</option>
+                    <option>deepseek-v4-pro</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="api-base">API Base URL</label>
+                  <input id="api-base" name="apiBaseURL" type="url" value="https://api.deepseek.com">
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="primary-button stable" type="submit">保存设置</button>
+                <button class="secondary-button" data-test-connection type="button">
+                  <span class="button-label">测试连接</span>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="status-line" data-settings-status>当前模型：deepseek-v4-flash</div>
+              <div class="error-banner" data-error="settings" hidden></div>
+            </div>
+            <div class="panel danger-zone">
+              <div class="panel-heading">
+                <h2>历史记录</h2>
+              </div>
+              <p class="muted">本地保存，不会上传到服务器。</p>
+              <button class="danger-button" data-clear-history type="button">清空历史记录</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" data-toast hidden></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

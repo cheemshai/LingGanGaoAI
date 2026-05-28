@@ -16,17 +16,47 @@ on:
       - main
 
 jobs:
+  build:
+    name: Build LingGanGaoAI
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build for simulator
+        run: |
+          set -euo pipefail
+
+          xcodebuild build \
+            -project LingGanGaoAI.xcodeproj \
+            -scheme LingGanGaoAI \
+            -configuration Debug \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO
+
   archive:
     name: Archive LingGanGaoAI
     runs-on: macos-15
     timeout-minutes: 45
+    needs: build
+    if: ${{ github.event_name == 'workflow_dispatch' }}
 
     env:
       SCHEME: LingGanGaoAI
       PROJECT_PATH: LingGanGaoAI.xcodeproj
       ARCHIVE_PATH: build/LingGanGaoAI.xcarchive
       EXPORT_PATH: build/export
-      KEYCHAIN_PATH: ${{ runner.temp }}/build.keychain-db
       KEYCHAIN_PASSWORD: ${{ secrets.IOS_BUILD_KEYCHAIN_PASSWORD }}
       APP_BUNDLE_ID: ${{ secrets.APP_BUNDLE_ID }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
@@ -55,6 +85,9 @@ jobs:
             echo "IOS_BUILD_KEYCHAIN_PASSWORD is missing."
             exit 1
           fi
+
+          KEYCHAIN_PATH="${RUNNER_TEMP}/build.keychain-db"
+          echo "KEYCHAIN_PATH=${KEYCHAIN_PATH}" >> "${GITHUB_ENV}"
 
           CERTIFICATE_PATH="${RUNNER_TEMP}/distribution.p12"
           echo "${IOS_DISTRIBUTION_CERTIFICATE_BASE64}" | base64 --decode > "${CERTIFICATE_PATH}"
