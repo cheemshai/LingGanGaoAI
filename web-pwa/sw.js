@@ -1,8 +1,10 @@
-const CACHE_NAME = "linggangaoai-web-v1";
+const CACHE_NAME = "haishushu-web-v4";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./storage.js",
+  "./i18n.js",
   "./app.js",
   "./manifest.webmanifest",
   "./assets/icon.svg"

@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f5ef">
+    <meta name="theme-color" content="#f4f7f4">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="灵感稿 AI">
+    <meta name="apple-mobile-web-app-title" content="海叔叔">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>灵感稿 AI</title>
+    <title>海叔叔</title>
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="apple-touch-icon" href="./assets/icon.svg">
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
@@ -15,167 +15,175 @@
   </head>
   <body>
     <div class="app-shell">
-      <aside class="sidebar" aria-label="主导航">
+      <aside class="sidebar" aria-label="Navigation">
         <div class="brand">
           <img src="./assets/icon.svg" alt="" class="brand-mark">
           <div>
-            <div class="brand-name">灵感稿 AI</div>
-            <div class="brand-subtitle" data-model-label>deepseek-v4-flash</div>
+            <div class="brand-name" data-i18n="appName"></div>
+            <div class="brand-subtitle" data-model-label></div>
           </div>
         </div>
 
         <nav class="nav-list">
-          <button class="nav-item active" data-view="home" type="button">
-            <span class="nav-icon">⌂</span>
-            <span>首页</span>
-          </button>
-          <button class="nav-item" data-view="ppt" type="button">
-            <span class="nav-icon">▤</span>
-            <span>PPT 大纲</span>
-          </button>
-          <button class="nav-item" data-view="copy" type="button">
-            <span class="nav-icon">✎</span>
-            <span>文案生成</span>
-          </button>
-          <button class="nav-item" data-view="prompt" type="button">
-            <span class="nav-icon">⌘</span>
-            <span>提示词</span>
-          </button>
-          <button class="nav-item" data-view="history" type="button">
-            <span class="nav-icon">◷</span>
-            <span>历史</span>
-          </button>
-          <button class="nav-item" data-view="settings" type="button">
-            <span class="nav-icon">⚙</span>
-            <span>设置</span>
-          </button>
+          <button class="nav-item active" data-view="home" type="button"><span class="nav-icon">⌂</span><span data-i18n="home"></span></button>
+          <button class="nav-item" data-view="chat" type="button"><span class="nav-icon">◌</span><span data-i18n="chat"></span></button>
+          <button class="nav-item" data-view="ppt" type="button"><span class="nav-icon">▤</span><span data-i18n="ppt"></span></button>
+          <button class="nav-item" data-view="copy" type="button"><span class="nav-icon">✎</span><span data-i18n="copy"></span></button>
+          <button class="nav-item" data-view="prompt" type="button"><span class="nav-icon">⌘</span><span data-i18n="prompt"></span></button>
+          <button class="nav-item" data-view="image" type="button"><span class="nav-icon">◉</span><span data-i18n="image"></span></button>
+          <button class="nav-item" data-view="video" type="button"><span class="nav-icon">▶</span><span data-i18n="video"></span></button>
+          <button class="nav-item" data-view="trends" type="button"><span class="nav-icon">↗</span><span data-i18n="trends"></span></button>
+          <button class="nav-item" data-view="history" type="button"><span class="nav-icon">◷</span><span data-i18n="history"></span></button>
+          <button class="nav-item" data-view="settings" type="button"><span class="nav-icon">⚙</span><span data-i18n="settings"></span></button>
         </nav>
+        <div class="plan-card">
+          <div class="plan-badge">◇</div>
+          <strong data-i18n="proPlan"></strong>
+          <span data-i18n="trialLeft"></span>
+          <div class="plan-meter"><span></span></div>
+          <button class="plan-button" data-view="settings" type="button" data-i18n="upgradePlan"></button>
+        </div>
       </aside>
 
       <main class="main-area">
         <header class="topbar">
-          <div>
-            <p class="eyebrow" data-view-eyebrow>工作台</p>
-            <h1 data-view-title>灵感稿 AI</h1>
+          <label class="global-search">
+            <span>⌕</span>
+            <input type="search" data-global-search data-i18n-placeholder="globalSearch">
+          </label>
+          <div class="top-actions">
+            <button class="icon-button" data-theme-cycle type="button" aria-label="Theme">☼</button>
+            <button class="pill-button" data-language-toggle type="button">中文</button>
+            <button class="avatar-button" data-view="settings" type="button" aria-label="Profile">AI</button>
           </div>
-          <button class="icon-button" data-view="settings" type="button" aria-label="设置">⚙</button>
         </header>
 
+        <section class="page-hero">
+          <div>
+            <p class="eyebrow" data-view-eyebrow></p>
+            <h1 data-view-title></h1>
+            <p class="hero-greeting" data-i18n="welcomeBack"></p>
+          </div>
+        </section>
+
         <section class="view active" data-panel="home">
-          <div class="dashboard-grid">
+          <div class="dashboard-grid core-grid">
             <button class="feature-card accent-a" data-view="ppt" type="button">
               <span class="feature-icon">▤</span>
-              <span class="feature-title">PPT 大纲生成</span>
-              <span class="feature-meta">标题、分页、图表、设计建议</span>
+              <span class="feature-title" data-i18n="ppt"></span>
+              <span class="feature-meta" data-i18n="pptTitle"></span>
             </button>
             <button class="feature-card accent-b" data-view="copy" type="button">
               <span class="feature-icon">✎</span>
-              <span class="feature-title">文案生成</span>
-              <span class="feature-meta">小红书、抖音、朋友圈、脚本</span>
+              <span class="feature-title" data-i18n="copy"></span>
+              <span class="feature-meta" data-i18n="copyTitle"></span>
             </button>
             <button class="feature-card accent-c" data-view="prompt" type="button">
               <span class="feature-icon">⌘</span>
-              <span class="feature-title">提示词生成</span>
-              <span class="feature-meta">Codex、Canva、Gemini、通用</span>
+              <span class="feature-title" data-i18n="prompt"></span>
+              <span class="feature-meta" data-i18n="promptTitle"></span>
             </button>
-            <button class="feature-card accent-d" data-view="history" type="button">
+            <button class="feature-card accent-e" data-view="history" type="button">
               <span class="feature-icon">◷</span>
-              <span class="feature-title">历史记录</span>
-              <span class="feature-meta" data-history-count>0 条记录</span>
+              <span class="feature-title" data-i18n="history"></span>
+              <span class="feature-meta" data-history-count></span>
             </button>
           </div>
 
           <div class="section-row">
             <div class="panel compact-panel">
               <div class="panel-heading">
-                <h2>最近结果</h2>
-                <button class="text-button" data-view="history" type="button">查看全部</button>
+                <h2 data-i18n="recentResults"></h2>
+                <button class="text-button" data-view="history" type="button" data-i18n="viewAll"></button>
               </div>
               <div class="recent-list" data-recent-list></div>
             </div>
             <div class="panel compact-panel">
               <div class="panel-heading">
-                <h2>当前配置</h2>
-                <button class="text-button" data-view="settings" type="button">设置</button>
+                <h2 data-i18n="currentConfig"></h2>
+                <button class="text-button" data-view="settings" type="button" data-i18n="settings"></button>
               </div>
               <dl class="settings-summary">
-                <div>
-                  <dt>模型</dt>
-                  <dd data-summary-model>deepseek-v4-flash</dd>
-                </div>
-                <div>
-                  <dt>Base URL</dt>
-                  <dd data-summary-base>https://api.deepseek.com</dd>
-                </div>
-                <div>
-                  <dt>API Key</dt>
-                  <dd data-summary-key>未填写</dd>
-                </div>
+                <div><dt data-i18n="model"></dt><dd data-summary-model></dd></div>
+                <div><dt data-i18n="apiBaseURL"></dt><dd data-summary-base></dd></div>
+                <div><dt data-i18n="apiKey"></dt><dd class="masked-key" data-summary-key></dd></div>
               </dl>
+              <div class="connection-pill"><span></span><b data-i18n="connectionOK"></b></div>
             </div>
+          </div>
+
+          <section class="addable-section">
+            <h2 data-i18n="addableFeatures"></h2>
+            <div class="addable-grid">
+              <button class="mini-feature accent-a" data-view="chat" type="button"><span class="feature-icon">◌</span><strong data-i18n="chat"></strong><small data-i18n="chatTitle"></small></button>
+              <button class="mini-feature accent-d" data-view="image" type="button"><span class="feature-icon">◉</span><strong data-i18n="image"></strong><small data-i18n="imageTitle"></small></button>
+              <button class="mini-feature accent-f" data-view="video" type="button"><span class="feature-icon">▶</span><strong data-i18n="video"></strong><small data-i18n="videoTitle"></small></button>
+              <button class="mini-feature accent-g" data-view="trends" type="button"><span class="feature-icon">↗</span><strong data-i18n="trends"></strong><small data-i18n="trendsTitle"></small></button>
+              <button class="mini-feature accent-e" data-view="history" type="button"><span class="feature-icon">★</span><strong data-i18n="favoriteOnly"></strong><small data-i18n="manageFavorites"></small></button>
+              <button class="mini-feature accent-b" data-view="settings" type="button"><span class="feature-icon">⇩</span><strong data-i18n="exportFeature"></strong><small data-i18n="exportFeatureDesc"></small></button>
+              <button class="mini-feature accent-c" data-view="prompt" type="button"><span class="feature-icon">⚡</span><strong data-i18n="quickCommand"></strong><small data-i18n="quickCommandDesc"></small></button>
+            </div>
+          </section>
+
+          <div class="value-strip">
+            <div><span>♡</span><strong data-i18n="cleanElegant"></strong><small data-i18n="cleanElegantDesc"></small></div>
+            <div><span>↗</span><strong data-i18n="efficientEasy"></strong><small data-i18n="efficientEasyDesc"></small></div>
+            <div><span>✦</span><strong data-i18n="smartCenter"></strong><small data-i18n="smartCenterDesc"></small></div>
+          </div>
+        </section>
+
+        <section class="view" data-panel="chat">
+          <div class="chat-layout">
+            <aside class="panel chat-sidebar">
+              <div class="panel-heading">
+                <h2 data-i18n="chat"></h2>
+                <button class="text-button" data-new-chat type="button" data-i18n="newChat"></button>
+              </div>
+              <div class="chat-list" data-chat-list></div>
+            </aside>
+            <section class="panel chat-panel">
+              <div class="panel-heading">
+                <h2 data-i18n="chatTitle"></h2>
+                <button class="danger-button" data-delete-chat type="button" data-i18n="deleteChat"></button>
+              </div>
+              <div class="chat-messages" data-chat-messages></div>
+              <form class="chat-composer" data-chat-form>
+                <textarea data-chat-input rows="3" data-i18n-placeholder="chatInputPlaceholder"></textarea>
+                <button class="primary-button stable" data-chat-send type="submit"><span data-i18n="sendMessage"></span><span class="spinner"></span></button>
+              </form>
+              <div class="error-banner" data-error="chat" hidden></div>
+            </section>
           </div>
         </section>
 
         <section class="view" data-panel="ppt">
           <form class="tool-layout" data-form="ppt">
             <div class="form-panel panel">
-              <div class="field">
-                <label for="ppt-topic">PPT 主题</label>
-                <textarea id="ppt-topic" name="topic" rows="4" placeholder="例如：大学生社会实践项目成果汇报"></textarea>
-              </div>
+              <div class="field"><label for="ppt-topic" data-i18n="pptTopic"></label><textarea id="ppt-topic" name="topic" rows="4" data-draft-field></textarea></div>
               <div class="field-grid">
-                <div class="field">
-                  <label for="ppt-pages">页数</label>
-                  <select id="ppt-pages" name="pages">
-                    <option>8</option>
-                    <option>10</option>
-                    <option>12</option>
-                    <option>15</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="ppt-scene">使用场景</label>
-                  <select id="ppt-scene" name="scene">
-                    <option>课堂汇报</option>
-                    <option>毕设答辩</option>
-                    <option>商业路演</option>
-                    <option>社会实践</option>
-                    <option>行业分析</option>
-                    <option>自定义</option>
-                  </select>
-                </div>
+                <div class="field"><label for="ppt-pages" data-i18n="pages"></label><select id="ppt-pages" name="pages" data-draft-field><option>8</option><option>10</option><option>12</option><option>15</option></select></div>
+                <div class="field"><label for="ppt-scene" data-i18n="scene"></label><select id="ppt-scene" name="scene" data-draft-field>
+                  <option value="sceneClass" data-i18n="sceneClass"></option><option value="sceneDefense" data-i18n="sceneDefense"></option><option value="scenePitch" data-i18n="scenePitch"></option><option value="scenePractice" data-i18n="scenePractice"></option><option value="sceneIndustry" data-i18n="sceneIndustry"></option><option value="sceneCustom" data-i18n="sceneCustom"></option>
+                </select></div>
               </div>
-              <div class="field" data-custom-scene-field hidden>
-                <label for="ppt-custom-scene">自定义场景</label>
-                <input id="ppt-custom-scene" name="customScene" type="text" placeholder="输入具体使用场景">
-              </div>
-              <div class="field">
-                <label for="ppt-style">风格</label>
-                <select id="ppt-style" name="style">
-                  <option>商务</option>
-                  <option>学术</option>
-                  <option>红色主题</option>
-                  <option>科技风</option>
-                  <option>简洁风</option>
-                  <option>高级感</option>
-                </select>
-              </div>
-              <label class="switch-row">
-                <input name="speechNotes" type="checkbox">
-                <span>需要演讲稿</span>
-              </label>
-              <button class="primary-button" type="submit">
-                <span class="button-label">生成 PPT 大纲</span>
-                <span class="spinner" aria-hidden="true"></span>
-              </button>
+              <div class="field" data-custom-scene-field hidden><label for="ppt-custom-scene" data-i18n="customScene"></label><input id="ppt-custom-scene" name="customScene" type="text" data-draft-field></div>
+              <div class="field"><label for="ppt-style" data-i18n="style"></label><select id="ppt-style" name="style" data-draft-field>
+                <option value="styleBusiness" data-i18n="styleBusiness"></option><option value="styleAcademic" data-i18n="styleAcademic"></option><option value="styleRed" data-i18n="styleRed"></option><option value="styleTech" data-i18n="styleTech"></option><option value="styleSimple" data-i18n="styleSimple"></option><option value="stylePremium" data-i18n="stylePremium"></option>
+              </select></div>
+              <label class="switch-row"><input name="speechNotes" type="checkbox" data-draft-field><span data-i18n="speechNotes"></span></label>
+              <button class="primary-button" type="submit"><span class="button-label" data-i18n="generatePPT"></span><span class="spinner" aria-hidden="true"></span></button>
               <div class="error-banner" data-error="ppt" hidden></div>
             </div>
             <div class="result-panel panel">
-              <div class="panel-heading">
-                <h2>生成结果</h2>
-                <button class="copy-button" data-copy-result="ppt" type="button">复制</button>
-              </div>
-              <article class="markdown-result" data-result="ppt">结果会显示在这里。</article>
+              <div class="panel-heading"><h2 data-i18n="result"></h2><div class="action-group">
+                <button class="copy-button" data-copy-result="ppt" type="button" data-i18n="copyAction"></button>
+                <button class="copy-button" data-export="ppt:markdown" type="button" data-i18n="exportMd"></button>
+                <button class="copy-button" data-export="ppt:word" type="button" data-i18n="exportWord"></button>
+                <button class="copy-button" data-export="ppt:pdf" type="button" data-i18n="exportPdf"></button>
+              </div></div>
+              <div class="version-strip" data-version-strip="ppt"></div>
+              <article class="markdown-result empty" data-result="ppt"></article>
+              <div class="iterate-box"><label data-i18n="continueEdit"></label><textarea data-iterate-input="ppt" rows="2" data-i18n-placeholder="continuePlaceholder"></textarea><button class="secondary-button" data-iterate="ppt" type="button"><span data-i18n="applyEdit"></span><span class="spinner"></span></button></div>
             </div>
           </form>
         </section>
@@ -183,55 +191,26 @@
         <section class="view" data-panel="copy">
           <form class="tool-layout" data-form="copy">
             <div class="form-panel panel">
-              <div class="field">
-                <label for="copy-topic">主题</label>
-                <textarea id="copy-topic" name="topic" rows="4" placeholder="例如：一款适合学生党的 AI 学习工具"></textarea>
-              </div>
+              <div class="field"><label for="copy-topic" data-i18n="copyTopic"></label><textarea id="copy-topic" name="topic" rows="4" data-draft-field></textarea></div>
               <div class="field-grid">
-                <div class="field">
-                  <label for="copy-type">文案类型</label>
-                  <select id="copy-type" name="copyType">
-                    <option>小红书</option>
-                    <option>抖音</option>
-                    <option>朋友圈</option>
-                    <option>商品带货</option>
-                    <option>视频脚本</option>
-                    <option>论文润色</option>
-                    <option>演讲稿</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="copy-length">字数</label>
-                  <select id="copy-length" name="length">
-                    <option>短</option>
-                    <option>中</option>
-                    <option>长</option>
-                  </select>
-                </div>
+                <div class="field"><label for="copy-type" data-i18n="copyType"></label><select id="copy-type" name="copyType" data-draft-field>
+                  <option value="copyXhs" data-i18n="copyXhs"></option><option value="copyDouyin" data-i18n="copyDouyin"></option><option value="copyMoments" data-i18n="copyMoments"></option><option value="copySales" data-i18n="copySales"></option><option value="copyScript" data-i18n="copyScript"></option><option value="copyPaper" data-i18n="copyPaper"></option><option value="copySpeech" data-i18n="copySpeech"></option>
+                </select></div>
+                <div class="field"><label for="copy-length" data-i18n="length"></label><select id="copy-length" name="length" data-draft-field><option value="lenShort" data-i18n="lenShort"></option><option value="lenMedium" data-i18n="lenMedium"></option><option value="lenLong" data-i18n="lenLong"></option></select></div>
               </div>
-              <div class="field">
-                <label for="copy-style">风格</label>
-                <select id="copy-style" name="style">
-                  <option>正式</option>
-                  <option>活泼</option>
-                  <option>高级</option>
-                  <option>接地气</option>
-                  <option>学术</option>
-                  <option>犀利</option>
-                </select>
-              </div>
-              <button class="primary-button" type="submit">
-                <span class="button-label">生成文案</span>
-                <span class="spinner" aria-hidden="true"></span>
-              </button>
+              <div class="field"><label for="copy-style" data-i18n="style"></label><select id="copy-style" name="style" data-draft-field>
+                <option value="toneFormal" data-i18n="toneFormal"></option><option value="tonePlayful" data-i18n="tonePlayful"></option><option value="tonePremium" data-i18n="tonePremium"></option><option value="toneGrounded" data-i18n="toneGrounded"></option><option value="toneAcademic" data-i18n="toneAcademic"></option><option value="toneSharp" data-i18n="toneSharp"></option>
+              </select></div>
+              <button class="primary-button" type="submit"><span data-i18n="generateCopy"></span><span class="spinner"></span></button>
               <div class="error-banner" data-error="copy" hidden></div>
             </div>
             <div class="result-panel panel">
-              <div class="panel-heading">
-                <h2>生成结果</h2>
-                <button class="copy-button" data-copy-result="copy" type="button">复制</button>
-              </div>
-              <article class="markdown-result" data-result="copy">结果会显示在这里。</article>
+              <div class="panel-heading"><h2 data-i18n="result"></h2><div class="action-group">
+                <button class="copy-button" data-copy-result="copy" type="button" data-i18n="copyAction"></button><button class="copy-button" data-export="copy:txt" type="button" data-i18n="exportTxt"></button><button class="copy-button" data-export="copy:markdown" type="button" data-i18n="exportMd"></button><button class="copy-button" data-export="copy:word" type="button" data-i18n="exportWord"></button>
+              </div></div>
+              <div class="version-strip" data-version-strip="copy"></div>
+              <article class="markdown-result empty" data-result="copy"></article>
+              <div class="iterate-box"><label data-i18n="continueEdit"></label><textarea data-iterate-input="copy" rows="2" data-i18n-placeholder="continuePlaceholder"></textarea><button class="secondary-button" data-iterate="copy" type="button"><span data-i18n="applyEdit"></span><span class="spinner"></span></button></div>
             </div>
           </form>
         </section>
@@ -239,119 +218,132 @@
         <section class="view" data-panel="prompt">
           <form class="tool-layout" data-form="prompt">
             <div class="form-panel panel">
-              <div class="field">
-                <label for="prompt-goal">想生成什么内容</label>
-                <textarea id="prompt-goal" name="goal" rows="4" placeholder="例如：帮我生成一份品牌发布会 PPT"></textarea>
-              </div>
+              <div class="field"><label for="prompt-goal" data-i18n="promptGoal"></label><textarea id="prompt-goal" name="goal" rows="4" data-draft-field></textarea></div>
               <div class="field-grid">
-                <div class="field">
-                  <label for="prompt-platform">使用平台</label>
-                  <select id="prompt-platform" name="platform">
-                    <option>Codex</option>
-                    <option>Canva</option>
-                    <option>豆包</option>
-                    <option>Gemini</option>
-                    <option>ChatGPT</option>
-                    <option>通用</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="prompt-detail">详细程度</label>
-                  <select id="prompt-detail" name="detail">
-                    <option>简短</option>
-                    <option selected>标准</option>
-                    <option>超详细</option>
-                  </select>
-                </div>
+                <div class="field"><label for="prompt-platform" data-i18n="platform"></label><select id="prompt-platform" name="platform" data-draft-field><option>Codex</option><option>Canva</option><option>豆包</option><option>Gemini</option><option>ChatGPT</option><option>通用</option></select></div>
+                <div class="field"><label for="prompt-detail" data-i18n="detail"></label><select id="prompt-detail" name="detail" data-draft-field><option value="detailShort" data-i18n="detailShort"></option><option value="detailStandard" data-i18n="detailStandard"></option><option value="detailDetailed" data-i18n="detailDetailed"></option></select></div>
               </div>
-              <div class="field">
-                <label for="prompt-style">目标风格</label>
-                <input id="prompt-style" name="style" type="text" placeholder="例如：专业、清晰、有执行步骤">
-              </div>
-              <button class="primary-button" type="submit">
-                <span class="button-label">生成提示词</span>
-                <span class="spinner" aria-hidden="true"></span>
-              </button>
+              <div class="field"><label for="prompt-style" data-i18n="targetStyle"></label><input id="prompt-style" name="style" type="text" data-draft-field></div>
+              <button class="primary-button" type="submit"><span data-i18n="generatePrompt"></span><span class="spinner"></span></button>
               <div class="error-banner" data-error="prompt" hidden></div>
             </div>
             <div class="result-panel panel">
-              <div class="panel-heading">
-                <h2>生成结果</h2>
-                <button class="copy-button" data-copy-result="prompt" type="button">复制</button>
-              </div>
-              <article class="markdown-result" data-result="prompt">结果会显示在这里。</article>
+              <div class="panel-heading"><h2 data-i18n="result"></h2><div class="action-group">
+                <button class="copy-button" data-copy-result="prompt" type="button" data-i18n="copyAction"></button><button class="copy-button" data-export="prompt:txt" type="button" data-i18n="exportTxt"></button><button class="copy-button" data-export="prompt:markdown" type="button" data-i18n="exportMd"></button>
+              </div></div>
+              <div class="version-strip" data-version-strip="prompt"></div>
+              <article class="markdown-result empty" data-result="prompt"></article>
+              <div class="iterate-box"><label data-i18n="continueEdit"></label><textarea data-iterate-input="prompt" rows="2" data-i18n-placeholder="continuePlaceholder"></textarea><button class="secondary-button" data-iterate="prompt" type="button"><span data-i18n="applyEdit"></span><span class="spinner"></span></button></div>
             </div>
           </form>
+        </section>
+
+        <section class="view" data-panel="image">
+          <form class="tool-layout" data-form="image">
+            <div class="form-panel panel">
+              <div class="field"><label for="image-prompt" data-i18n="imagePrompt"></label><textarea id="image-prompt" name="prompt" rows="5" data-draft-field></textarea></div>
+              <div class="field-grid">
+                <div class="field"><label for="image-ratio" data-i18n="imageRatio"></label><select id="image-ratio" name="ratio" data-draft-field><option>1:1</option><option>16:9</option><option>9:16</option><option>4:3</option></select></div>
+                <div class="field"><label for="image-style" data-i18n="imageStyle"></label><select id="image-style" name="style" data-draft-field><option value="stylePhoto" data-i18n="stylePhoto"></option><option value="styleIllustration" data-i18n="styleIllustration"></option><option value="styleAnime" data-i18n="styleAnime"></option><option value="stylePoster" data-i18n="stylePoster"></option><option value="styleProduct" data-i18n="styleProduct"></option></select></div>
+              </div>
+              <button class="primary-button" type="submit"><span data-i18n="generateImage"></span><span class="spinner"></span></button>
+              <div class="error-banner" data-error="image" hidden></div>
+            </div>
+            <div class="result-panel panel">
+              <div class="panel-heading"><h2 data-i18n="imagePreview"></h2><div class="action-group">
+                <button class="copy-button" data-copy-image type="button" data-i18n="copyImage"></button><button class="copy-button" data-download-image type="button" data-i18n="download"></button><button class="copy-button" data-save-image type="button" data-i18n="saveToHistory"></button>
+              </div></div>
+              <div class="media-preview image-preview" data-image-preview></div>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" data-panel="video">
+          <form class="tool-layout" data-form="video">
+            <div class="form-panel panel">
+              <div class="field"><label for="video-prompt" data-i18n="videoPrompt"></label><textarea id="video-prompt" name="prompt" rows="5" data-draft-field></textarea></div>
+              <div class="field-grid">
+                <div class="field"><label for="video-mode" data-i18n="videoMode"></label><select id="video-mode" name="mode" data-draft-field><option value="text" data-i18n="textToVideo"></option><option value="image" data-i18n="imageToVideo"></option></select></div>
+                <div class="field"><label for="video-ratio" data-i18n="videoRatio"></label><select id="video-ratio" name="ratio" data-draft-field><option>16:9</option><option>9:16</option><option>1:1</option></select></div>
+              </div>
+              <div class="field-grid">
+                <div class="field"><label for="video-duration" data-i18n="duration"></label><select id="video-duration" name="duration" data-draft-field><option value="5" data-i18n="duration5"></option><option value="10" data-i18n="duration10"></option><option value="11" data-i18n="duration11" selected></option><option value="15" data-i18n="duration15"></option></select></div>
+                <div class="field"><label for="video-image" data-i18n="sourceImage"></label><input id="video-image" name="sourceImage" type="file" accept="image/*"></div>
+              </div>
+              <div class="field"><label for="video-reference-images" data-i18n="referenceImageUrls"></label><textarea id="video-reference-images" name="referenceImageUrls" rows="3" data-draft-field data-i18n-placeholder="referenceImageUrlsPlaceholder"></textarea></div>
+              <div class="field-grid">
+                <div class="field"><label for="video-reference-video" data-i18n="referenceVideoUrl"></label><input id="video-reference-video" name="referenceVideoUrl" type="url" data-draft-field></div>
+                <div class="field"><label for="video-reference-audio" data-i18n="referenceAudioUrl"></label><input id="video-reference-audio" name="referenceAudioUrl" type="url" data-draft-field></div>
+              </div>
+              <div class="field-grid">
+                <label class="switch-row"><input name="generateAudio" type="checkbox" checked data-draft-field><span data-i18n="generateAudio"></span></label>
+                <label class="switch-row"><input name="watermark" type="checkbox" data-draft-field><span data-i18n="watermark"></span></label>
+              </div>
+              <button class="primary-button" type="submit"><span data-i18n="generateVideo"></span><span class="spinner"></span></button>
+              <div class="error-banner" data-error="video" hidden></div>
+            </div>
+            <div class="result-panel panel">
+              <div class="panel-heading"><h2 data-i18n="videoProgress"></h2></div>
+              <div class="task-progress" data-video-progress><div class="progress-bar"><span></span></div><p class="muted" data-video-status></p></div>
+              <div class="media-preview video-preview" data-video-preview></div>
+              <div class="task-list" data-task-list></div>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" data-panel="trends">
+          <div class="hotspot-grid" data-hotspot-list></div>
         </section>
 
         <section class="view" data-panel="history">
           <div class="panel">
             <div class="history-toolbar">
-              <div class="field search-field">
-                <label for="history-search">搜索</label>
-                <input id="history-search" data-history-search type="search" placeholder="搜索标题、输入或结果">
-              </div>
+              <div class="field search-field"><label for="history-search" data-i18n="search"></label><input id="history-search" data-history-search type="search" data-i18n-placeholder="searchPlaceholder"></div>
               <div class="segmented" data-history-filter>
-                <button class="active" type="button" data-filter="all">全部</button>
-                <button type="button" data-filter="ppt">PPT</button>
-                <button type="button" data-filter="copy">文案</button>
-                <button type="button" data-filter="prompt">提示词</button>
+                <button class="active" type="button" data-filter="all" data-i18n="all"></button><button type="button" data-filter="ppt">PPT</button><button type="button" data-filter="copy" data-i18n="copy"></button><button type="button" data-filter="prompt" data-i18n="prompt"></button><button type="button" data-filter="image" data-i18n="image"></button><button type="button" data-filter="video" data-i18n="video"></button><button type="button" data-filter="favorite" data-i18n="favoriteOnly"></button>
               </div>
             </div>
             <div class="history-list" data-history-list></div>
           </div>
           <dialog class="record-dialog" data-record-dialog>
-            <div class="dialog-header">
-              <div>
-                <p class="eyebrow" data-dialog-type>记录</p>
-                <h2 data-dialog-title>详情</h2>
-              </div>
-              <button class="icon-button" data-dialog-close type="button" aria-label="关闭">×</button>
-            </div>
+            <div class="dialog-header"><div><p class="eyebrow" data-dialog-type></p><h2 data-dialog-title></h2></div><button class="icon-button" data-dialog-close type="button" aria-label="Close">×</button></div>
             <article class="markdown-result dialog-content" data-dialog-content></article>
-            <div class="dialog-actions">
-              <button class="copy-button" data-dialog-copy type="button">复制全文</button>
-              <button class="danger-button" data-dialog-delete type="button">删除</button>
-            </div>
+            <div class="dialog-actions"><button class="copy-button" data-dialog-reopen type="button" data-i18n="reopen"></button><button class="copy-button" data-dialog-copy type="button" data-i18n="copyFull"></button><button class="copy-button" data-dialog-favorite type="button"></button><button class="danger-button" data-dialog-delete type="button" data-i18n="delete"></button></div>
           </dialog>
         </section>
 
         <section class="view" data-panel="settings">
-          <form class="settings-layout" data-form="settings">
-            <div class="panel">
-              <div class="field">
-                <label for="api-key">DeepSeek API Key</label>
-                <input id="api-key" name="apiKey" type="password" autocomplete="off" placeholder="sk-...">
-              </div>
-              <div class="field-grid">
-                <div class="field">
-                  <label for="model-name">模型</label>
-                  <select id="model-name" name="modelName">
-                    <option>deepseek-v4-flash</option>
-                    <option>deepseek-v4-pro</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="api-base">API Base URL</label>
-                  <input id="api-base" name="apiBaseURL" type="url" value="https://api.deepseek.com">
-                </div>
-              </div>
-              <div class="button-row">
-                <button class="primary-button stable" type="submit">保存设置</button>
-                <button class="secondary-button" data-test-connection type="button">
-                  <span class="button-label">测试连接</span>
-                  <span class="spinner" aria-hidden="true"></span>
-                </button>
-              </div>
-              <div class="status-line" data-settings-status>当前模型：deepseek-v4-flash</div>
-              <div class="error-banner" data-error="settings" hidden></div>
+          <form class="settings-grid" data-form="settings">
+            <div class="panel settings-card">
+              <h2 data-i18n="textModel"></h2>
+              <div class="field"><label for="text-base" data-i18n="apiBaseURL"></label><input id="text-base" name="textApiBaseURL" type="url"></div>
+              <div class="field"><label for="text-key" data-i18n="apiKey"></label><div class="secret-field"><input id="text-key" name="textApiKey" type="password" autocomplete="off"><button type="button" data-toggle-secret="text-key" data-i18n="show"></button></div></div>
+              <div class="field"><label for="text-model" data-i18n="model"></label><select id="text-model" name="textModel"><option>deepseek-v4-flash</option><option>deepseek-v4-pro</option></select></div>
             </div>
-            <div class="panel danger-zone">
-              <div class="panel-heading">
-                <h2>历史记录</h2>
+            <div class="panel settings-card">
+              <h2 data-i18n="imageModel"></h2>
+              <div class="field"><label for="image-base" data-i18n="apiBaseURL"></label><input id="image-base" name="imageApiBaseURL" type="url"></div>
+              <div class="field"><label for="image-key" data-i18n="apiKey"></label><div class="secret-field"><input id="image-key" name="imageApiKey" type="password" autocomplete="off"><button type="button" data-toggle-secret="image-key" data-i18n="show"></button></div></div>
+              <div class="field"><label for="image-model" data-i18n="model"></label><input id="image-model" name="imageModel" type="text"></div>
+            </div>
+            <div class="panel settings-card">
+              <h2 data-i18n="videoModel"></h2>
+              <div class="field"><label for="video-base" data-i18n="apiBaseURL"></label><input id="video-base" name="videoApiBaseURL" type="url"></div>
+              <div class="field"><label for="video-key" data-i18n="apiKey"></label><div class="secret-field"><input id="video-key" name="videoApiKey" type="password" autocomplete="off"><button type="button" data-toggle-secret="video-key" data-i18n="show"></button></div></div>
+              <div class="field"><label for="video-model" data-i18n="model"></label><input id="video-model" name="videoModel" type="text"></div>
+            </div>
+            <div class="panel settings-card">
+              <h2 data-i18n="exportLanguage"></h2>
+              <div class="field-grid">
+                <div class="field"><label for="language-select" data-i18n="language"></label><select id="language-select" name="language"><option value="zh" data-i18n="zh"></option><option value="en" data-i18n="en"></option></select></div>
+                <div class="field"><label for="theme-select" data-i18n="theme"></label><select id="theme-select" name="theme"><option value="system" data-i18n="themeSystem"></option><option value="light" data-i18n="themeLight"></option><option value="dark" data-i18n="themeDark"></option></select></div>
               </div>
-              <p class="muted">本地保存，不会上传到服务器。</p>
-              <button class="danger-button" data-clear-history type="button">清空历史记录</button>
+              <div class="field"><label for="export-format" data-i18n="exportDefault"></label><select id="export-format" name="exportFormat"><option value="markdown">Markdown</option><option value="word">Word</option><option value="txt">TXT</option></select></div>
+              <div class="button-row"><button class="primary-button stable" type="submit" data-i18n="saveSettings"></button><button class="secondary-button" data-test-connection type="button"><span data-i18n="testConnection"></span><span class="spinner"></span></button></div>
+              <div class="status-line" data-settings-status></div>
+              <p class="muted" data-i18n="localDataNote"></p>
+              <div class="button-row"><button class="danger-button" data-clear-history type="button" data-i18n="clearHistory"></button><button class="danger-button" data-clear-local type="button" data-i18n="clearLocalData"></button></div>
+              <div class="error-banner" data-error="settings" hidden></div>
             </div>
           </form>
         </section>
@@ -359,6 +351,8 @@
     </div>
 
     <div class="toast" data-toast hidden></div>
+    <script src="./storage.js"></script>
+    <script src="./i18n.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

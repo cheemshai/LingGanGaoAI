@@ -1,6 +1,10 @@
 *.zip
 LingGanGaoAI-github-actions-package/
 *.log
+HEAD
+=======
+web-pwa/*-check.png
+2a0eb56 (Update UI and add AI features)
 
 # wrangler files
 .wrangler
