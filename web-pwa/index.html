@@ -268,7 +268,7 @@
               </div>
               <div class="field-grid">
                 <div class="field"><label for="video-duration" data-i18n="duration"></label><select id="video-duration" name="duration" data-draft-field><option value="5" data-i18n="duration5"></option><option value="10" data-i18n="duration10"></option><option value="11" data-i18n="duration11" selected></option><option value="15" data-i18n="duration15"></option></select></div>
-                <div class="field"><label for="video-image" data-i18n="sourceImage"></label><input id="video-image" name="sourceImage" type="file" accept="image/*"></div>
+                <div class="field"><label for="video-image-url" data-i18n="sourceImage"></label><input id="video-image-url" name="sourceImageUrl" type="url" data-draft-field data-i18n-placeholder="sourceImagePlaceholder"></div>
               </div>
               <div class="field"><label for="video-reference-images" data-i18n="referenceImageUrls"></label><textarea id="video-reference-images" name="referenceImageUrls" rows="3" data-draft-field data-i18n-placeholder="referenceImageUrlsPlaceholder"></textarea></div>
               <div class="field-grid">
@@ -283,7 +283,11 @@
               <div class="error-banner" data-error="video" hidden></div>
             </div>
             <div class="result-panel panel">
-              <div class="panel-heading"><h2 data-i18n="videoProgress"></h2></div>
+              <div class="panel-heading"><h2 data-i18n="videoProgress"></h2><div class="action-group">
+                <button class="copy-button" data-copy-video type="button" data-i18n="copyVideoLink"></button>
+                <button class="copy-button" data-open-video type="button" data-i18n="openVideo"></button>
+                <button class="copy-button" data-download-video type="button" data-i18n="downloadVideo"></button>
+              </div></div>
               <div class="task-progress" data-video-progress><div class="progress-bar"><span></span></div><p class="muted" data-video-status></p></div>
               <div class="media-preview video-preview" data-video-preview></div>
               <div class="task-list" data-task-list></div>

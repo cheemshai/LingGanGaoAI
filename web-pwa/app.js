@@ -615,17 +615,22 @@ async function requestJSON(url, { apiKey, body, method = "POST" }) {
   const options = {
     method,
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey.trim()}`
+      "Content-Type": "application/json"
     }
   };
+
+  if (apiKey?.trim()) {
+    options.headers.Authorization = `Bearer ${apiKey.trim()}`;
+  }
 
   if (body !== undefined) {
     options.body = JSON.stringify(body);
   }
 
   const response = await fetch(url, options).catch((error) => {
-    throw new Error(error?.message || "NETWORK_ERROR");
+    const networkError = new Error(error?.message || "NETWORK_ERROR");
+    networkError.code = "NETWORK_ERROR";
+    throw networkError;
   });
 
   const responseText = await response.text();
@@ -640,10 +645,38 @@ async function requestJSON(url, { apiKey, body, method = "POST" }) {
     const message = payload?.error?.message || payload?.message || responseText || response.statusText;
     const error = new Error(message);
     error.status = response.status;
+    error.payload = payload;
     throw error;
   }
 
+  assertProviderPayloadOK(payload);
+
   return payload;
+}
+
+function assertProviderPayloadOK(payload) {
+  const errorMessage = extractProviderErrorMessage(payload);
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
+
+  const numericCode = Number(payload?.code ?? payload?.status_code);
+  if (Number.isFinite(numericCode) && numericCode !== 0) {
+    throw new Error(payload?.message || payload?.msg || `Provider returned code ${numericCode}`);
+  }
+}
+
+function extractProviderErrorMessage(payload) {
+  if (!payload || typeof payload !== "object") return "";
+  const numericCode = Number(payload.code ?? payload.status_code);
+  const hasErrorCode = payload.error_code ||
+    (Number.isFinite(numericCode) && numericCode !== 0);
+  return payload.error?.message ||
+    payload.error?.msg ||
+    (typeof payload.error === "string" ? payload.error : "") ||
+    payload.data?.error?.message ||
+    payload.data?.error_message ||
+    (hasErrorCode ? (payload.message || payload.data?.message || payload.msg) : "");
 }
 
 async function generateImage(event) {
@@ -761,7 +794,7 @@ async function generateVideoTask(event) {
     mode: data.mode,
     ratio: data.ratio,
     duration: Number(data.duration) || 11,
-    sourceImageDataURL: data.sourceImage ? await fileToDataURL(data.sourceImage) : "",
+    sourceImageUrl: String(data.sourceImageUrl || "").trim(),
     referenceImageUrls: parseURLLines(data.referenceImageUrls),
     referenceVideoUrl: String(data.referenceVideoUrl || "").trim(),
     referenceAudioUrl: String(data.referenceAudioUrl || "").trim(),
@@ -774,7 +807,7 @@ async function generateVideoTask(event) {
     return;
   }
 
-  if (!state.settings.video.apiKey.trim()) {
+  if (!state.settings.video.apiKey.trim() && !usesSameOriginProxy(state.settings.video.apiBaseURL)) {
     showError("video", t("videoKeyEmpty"));
     return;
   }
@@ -794,7 +827,7 @@ async function generateVideoTask(event) {
     modelName: state.settings.video.modelName,
     status: "creating",
     progress: 5,
-    sourceImageDataURL: input.sourceImageDataURL,
+    sourceImageUrl: input.sourceImageUrl,
     referenceImageUrls: input.referenceImageUrls,
     referenceVideoUrl: input.referenceVideoUrl,
     referenceAudioUrl: input.referenceAudioUrl,
@@ -877,10 +910,10 @@ function buildArkVideoContent(input) {
     });
   });
 
-  if (input.sourceImageDataURL) {
+  if (input.sourceImageUrl) {
     content.push({
       type: "image_url",
-      image_url: { url: input.sourceImageDataURL },
+      image_url: { url: input.sourceImageUrl },
       role: "reference_image"
     });
   }
@@ -906,8 +939,14 @@ function buildArkVideoContent(input) {
 
 function extractArkTaskId(payload) {
   const taskId = payload?.id || payload?.task_id || payload?.taskId ||
-    payload?.data?.id || payload?.data?.task_id || payload?.data?.taskId;
-  if (!taskId) throw new Error("EMPTY_RESPONSE");
+    payload?.data?.id || payload?.data?.task_id || payload?.data?.taskId ||
+    payload?.task?.id || payload?.task?.task_id ||
+    payload?.data?.task?.id || payload?.data?.task?.task_id;
+  if (!taskId) {
+    const error = new Error("EMPTY_TASK_ID");
+    error.payload = payload;
+    throw error;
+  }
   return taskId;
 }
 
@@ -942,7 +981,9 @@ function pollArkVideoTask(taskId) {
         showToast(t("taskDone"));
       } else if (task.status === "failed") {
         clearInterval(state.timers[taskId]);
-        showError("video", t("statusFailed"));
+        task.errorMessage = extractArkErrorMessage(payload) || t("statusFailed");
+        await Storage.saveTask(task);
+        showError("video", task.errorMessage);
       }
     } catch (error) {
       clearInterval(state.timers[taskId]);
@@ -972,8 +1013,18 @@ function resumeVideoPolling() {
 
 function extractArkStatus(payload) {
   const data = payload?.data || payload || {};
-  const rawStatus = String(data.status || data.task_status || data.taskStatus || data.state || data.output?.status || "").toLowerCase();
-  const rawProgress = Number(data.progress ?? data.percentage ?? data.output?.progress);
+  const rawStatus = String(
+    data.status ||
+    data.task_status ||
+    data.taskStatus ||
+    data.state ||
+    data.output?.status ||
+    data.output?.task_status ||
+    data.task?.status ||
+    data.task?.task_status ||
+    ""
+  ).toLowerCase();
+  const rawProgress = Number(data.progress ?? data.percentage ?? data.output?.progress ?? data.task?.progress);
 
   if (["succeeded", "success", "done", "completed", "complete"].includes(rawStatus)) {
     return { status: "completed", progress: 100, rawStatus };
@@ -995,9 +1046,32 @@ function extractArkStatus(payload) {
 }
 
 function extractVideoUrl(payload) {
-  const direct = payload?.data?.video_url?.url || payload?.data?.video_url || payload?.video_url?.url || payload?.video_url;
+  const direct = payload?.data?.video_url?.url ||
+    payload?.data?.video_url ||
+    payload?.data?.output?.video_url?.url ||
+    payload?.data?.output?.video_url ||
+    payload?.data?.content?.video_url?.url ||
+    payload?.data?.content?.video_url ||
+    payload?.output?.video_url?.url ||
+    payload?.output?.video_url ||
+    payload?.content?.video_url?.url ||
+    payload?.content?.video_url ||
+    payload?.result?.video_url?.url ||
+    payload?.result?.video_url ||
+    payload?.video_url?.url ||
+    payload?.video_url;
   if (typeof direct === "string") return direct;
   return findVideoUrl(payload);
+}
+
+function extractArkErrorMessage(payload) {
+  return extractProviderErrorMessage(payload) ||
+    payload?.data?.error_msg ||
+    payload?.data?.fail_reason ||
+    payload?.data?.task?.error_message ||
+    payload?.data?.task?.fail_reason ||
+    payload?.output?.error_message ||
+    "";
 }
 
 function findVideoUrl(value) {
@@ -1046,7 +1120,7 @@ async function saveVideoRecord(task) {
       ratio: task.ratio,
       duration: task.duration,
       mode: task.mode,
-      sourceImageDataURL: task.sourceImageDataURL,
+      sourceImageUrl: task.sourceImageUrl || "",
       referenceImageUrls: task.referenceImageUrls || [],
       referenceVideoUrl: task.referenceVideoUrl || "",
       referenceAudioUrl: task.referenceAudioUrl || ""
@@ -1683,6 +1757,9 @@ function bindExports() {
 function bindMediaActions() {
   $("[data-copy-image]").addEventListener("click", copyCurrentImage);
   $("[data-download-image]").addEventListener("click", downloadCurrentImage);
+  $("[data-copy-video]")?.addEventListener("click", copyCurrentVideoLink);
+  $("[data-open-video]")?.addEventListener("click", openCurrentVideo);
+  $("[data-download-video]")?.addEventListener("click", downloadCurrentVideo);
   $("[data-save-image]").addEventListener("click", async () => {
     if (state.currentImage) {
       await saveImageRecord();
@@ -1764,10 +1841,59 @@ function downloadCurrentImage() {
   link.click();
 }
 
+function getCurrentVideoUrl() {
+  return state.currentVideoTask?.videoUrl || "";
+}
+
+function copyCurrentVideoLink() {
+  const videoUrl = getCurrentVideoUrl();
+  if (!videoUrl) {
+    showToast(t("nothingToCopy"));
+    return;
+  }
+  copyText(videoUrl);
+}
+
+function openCurrentVideo() {
+  const videoUrl = getCurrentVideoUrl();
+  if (!videoUrl) {
+    showToast(t("nothingToCopy"));
+    return;
+  }
+  window.open(videoUrl, "_blank", "noopener");
+}
+
+function downloadCurrentVideo() {
+  const videoUrl = getCurrentVideoUrl();
+  if (!videoUrl) {
+    showToast(t("nothingToCopy"));
+    return;
+  }
+
+  const filename = `${safeFileName(state.currentVideoTask?.title || "seedance-video")}.mp4`;
+  const link = document.createElement("a");
+  link.href = buildVideoDownloadURL(videoUrl, filename);
+  link.download = filename;
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  showToast(t("downloadStarted"));
+}
+
+function buildVideoDownloadURL(videoUrl, filename) {
+  if (usesSameOriginProxy(state.settings.video.apiBaseURL) && /^https?:\/\//i.test(videoUrl)) {
+    return `/api/download?url=${encodeURIComponent(videoUrl)}&filename=${encodeURIComponent(filename)}`;
+  }
+  return videoUrl;
+}
+
 function toFriendlyError(error, scope = "text") {
   if (error.message === "API_KEY_EMPTY") return t("apiKeyEmpty");
   if (error.message === "IMAGE_KEY_EMPTY") return t("imageKeyEmpty");
   if (error.message === "VIDEO_KEY_EMPTY") return t("videoKeyEmpty");
+  if (error.message === "EMPTY_TASK_ID") return t("emptyTaskId");
+  if (error.code === "NETWORK_ERROR") return t(scope === "video" ? "videoNetworkError" : "networkError");
   if (error.status === 401 || error.status === 403) return t("authError");
   if (error.status === 402) return t("balanceError");
   if (error.status === 429) return t("rateError");
@@ -1809,6 +1935,16 @@ function typeLabel(type) {
 function normalizeBaseURL(url) {
   const trimmed = String(url || "").trim();
   return trimmed.endsWith("/") ? trimmed.slice(0, -1) : trimmed;
+}
+
+function usesSameOriginProxy(url) {
+  const trimmed = String(url || "").trim();
+  if (trimmed.startsWith("/")) return true;
+  try {
+    return new URL(trimmed, location.href).origin === location.origin;
+  } catch {
+    return false;
+  }
 }
 
 function renderMarkdown(markdown) {

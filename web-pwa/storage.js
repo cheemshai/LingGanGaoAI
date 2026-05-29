@@ -17,7 +17,7 @@
       modelName: "gpt-image-2"
     },
     video: {
-      apiBaseURL: "https://ark.cn-beijing.volces.com/api/v3",
+      apiBaseURL: "/api/ark",
       apiKey: "",
       modelName: "doubao-seedance-2-0-260128"
     },
@@ -73,6 +73,9 @@
   function normalizeSettings(settings) {
     const output = mergeDeep(defaultSettings, settings);
     if (output.video.apiBaseURL === "https://api.seedance.example/v1") {
+      output.video.apiBaseURL = defaultSettings.video.apiBaseURL;
+    }
+    if (output.video.apiBaseURL === "https://ark.cn-beijing.volces.com/api/v3") {
       output.video.apiBaseURL = defaultSettings.video.apiBaseURL;
     }
     if (output.video.modelName === "seedance-2.0") {

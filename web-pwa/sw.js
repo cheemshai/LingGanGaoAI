@@ -1,4 +1,4 @@
-const CACHE_NAME = "haishushu-web-v4";
+const CACHE_NAME = "haishushu-web-v6";
 const ASSETS = [
   "./",
   "./index.html",

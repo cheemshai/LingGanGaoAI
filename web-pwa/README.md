@@ -37,11 +37,12 @@ http://localhost:5173
 
 ## 注意
 
-简单配置和 API Key 保存在浏览器本地 `localStorage`，历史记录、草稿、版本、图片/视频任务保存在 IndexedDB。纯前端直连模型 API 可能受到浏览器 CORS 限制；如果测试连接一直失败，可以把对应的 `API Base URL` 改成你自己的代理地址。
+简单配置和 API Key 保存在浏览器本地 `localStorage`，历史记录、草稿、版本、图片/视频任务保存在 IndexedDB。纯前端直连模型 API 可能受到浏览器 CORS 限制；视频生成默认通过同源 `/api/ark` Cloudflare Worker 代理转发到火山方舟。
 
 视频默认配置为火山方舟 Ark：
 
-- Base URL: `https://ark.cn-beijing.volces.com/api/v3`
+- Base URL: `/api/ark`
+- Worker upstream: `https://ark.cn-beijing.volces.com/api/v3`
 - Model: `doubao-seedance-2-0-260128`
 
-不要把真实 API Key 写进源码或提交到公开仓库；请在设置页填写并保存到本机浏览器。
+不要把真实 API Key 写进源码或提交到公开仓库；请在设置页填写并保存到本机浏览器。若部署到 Cloudflare Workers，也可以设置运行时变量 `ARK_API_KEY`，此时前端不填视频 Key 也可由 Worker 使用该密钥转发。
